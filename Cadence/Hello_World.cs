@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Discord;
 using Discord.WebSocket;
+using Discord.Commands;
 using NLog;
 using NLog.Extensions.Logging;
 
@@ -12,8 +13,6 @@ namespace Cadence
         private static readonly string AppName = Assembly.GetExecutingAssembly().GetName().Name;
         private static readonly Logger Logger = LogManager.GetLogger(AppName + ".log");
         public static Task Main() => new HelloWorld().MainAsync();
-
-        private DiscordSocketClient DiscordClient;
 
         public async Task MainAsync()
         {
@@ -33,7 +32,7 @@ namespace Cadence
             {
                 var Commands = new CommandService();
 
-                DiscordClient = new DiscordSocketClient();
+                var DiscordClient = new DiscordSocketClient();
                 DiscordClient.Log += Log;
 
                 var Token = File.ReadAllText(Config["Token"]).Trim();
