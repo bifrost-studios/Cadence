@@ -31,6 +31,7 @@ namespace Cadence
 
             try
             {
+                var Commands = new CommandService();
 
                 DiscordClient = new DiscordSocketClient();
                 DiscordClient.Log += Log;
@@ -40,6 +41,10 @@ namespace Cadence
                 await DiscordClient.LoginAsync(TokenType.Bot, Token);
                 await DiscordClient.StartAsync();
 
+                var Handler = new CommandHandler(DiscordClient, Commands);
+
+                await Handler.InstallCommandsAsync();
+
                 await Task.Delay(-1);
 
             }catch (Exception E)
@@ -47,6 +52,8 @@ namespace Cadence
                 await Log(new LogMessage(LogSeverity.Error, E.Source, E.Message, E));
             }
         }
+
+
 
         private Task Log(LogMessage message)
         {
